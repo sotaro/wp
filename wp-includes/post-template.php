@@ -162,7 +162,9 @@ function get_the_guid( $id = 0 ) {
  * @param string $more_link_text Optional. Content for when there is more text.
  * @param bool $stripteaser Optional. Strip teaser content before the more text. Default is false.
  */
+
 function the_content($more_link_text = null, $stripteaser = false) {
+	$more_link_text = '&raquo; &raquo; &raquo; &raquo;';
 	$content = get_the_content($more_link_text, $stripteaser);
 	$content = apply_filters('the_content', $content);
 	$content = str_replace(']]>', ']]&gt;', $content);
@@ -218,6 +220,7 @@ function get_the_content($more_link_text = null, $stripteaser = false) {
 		} else {
 			if ( ! empty($more_link_text) )
 				$output .= apply_filters( 'the_content_more_link', ' <a href="' . get_permalink() . "#more-{$post->ID}\" class=\"more-link\">$more_link_text</a>", $more_link_text );
+				//$output .= apply_filters( 'the_content_more_link', ' <a href="' . get_permalink() . "\">$more_link_text</a>", $more_link_text );
 			$output = force_balance_tags($output);
 		}
 
