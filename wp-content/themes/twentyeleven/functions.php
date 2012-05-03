@@ -592,3 +592,26 @@ function twentyeleven_body_classes( $classes ) {
 }
 add_filter( 'body_class', 'twentyeleven_body_classes' );
 
+function remove_more_jump_link($link) { 
+	$offset = strpos($link, '#more-');
+	if ($offset) {
+		$end = strpos($link, '"',$offset);
+	}
+	if ($end) {
+		$link = substr_replace($link, '', $offset, $end-$offset);
+	}
+	return $link;
+}
+add_filter('the_content_more_link', 'remove_more_jump_link');
+
+function add_my_script(){
+	if(!is_admin()){
+		$tmp=get_bloginfo('template_directory');
+		echo "<link rel='stylesheet' href='".$tmp."/css/mygallery.css' type='text/css' media='all' />\n";
+		wp_enqueue_script('jquery-galleriffic',$tmp.'/js/jquery.galleriffic.js',array('jquery'),NULL,false);
+		wp_enqueue_script('jquery-opacityrollover',$tmp.'/js/jquery.opacityrollover.js',array('jquery'),NULL,false);
+		wp_enqueue_script('mygallery',$tmp.'/js/mygallery.js',array('jquery-galleriffic','jquery-opacityrollover'),NULL,false);
+	}
+}
+add_action('wp_print_scripts','add_my_script');
+
